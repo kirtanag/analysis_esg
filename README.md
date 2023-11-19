@@ -19,11 +19,11 @@ Recurring words used across all data sources for all three companies include 'en
 Exploratory Data Analysis 2 - Bubble Plots
 
 I wanted to look at how words have been used within company websites, and the prevalence of key ESG-related wording through a bubble plot.
-Interactive file can be seen here - 
+Interactive file can be seen here - https://kirtanag.github.io/data_analysis/InteractiveBubblePlots.html
 
 Exploratory Data Analysis 3 - Temporal line graphs
 
 I wanted to look at how words have increased or decreased in prevalence over the 3-year period within annual reports and sustainability reports as a reaction to growing conversations of companies greenwashing their performance through language.
-Interactive file can be seen here -  https://github.com/kirtanag/analysis_esg/blob/main/InteractiveLineGraphs.html
+Interactive file can be seen here -  https://kirtanag.github.io/data_analysis/InteractiveLineGraphs.html
 
 
