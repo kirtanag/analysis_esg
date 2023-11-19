@@ -1,4 +1,4 @@
-Repository - ESG Analysis
+**Repository - ESG Analysis**
 
 This repository contains code with temporal analysis of the language used by 3 leading UK energy companies around their ESG initiatives.
 
