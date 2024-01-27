@@ -17,7 +17,7 @@ def get_driver(headless: bool = True, chrome_version: int = 120) -> WebDriver:
 URL = 'https://www.londonstockexchange.com/indices/ftse-100/constituents/table'
 
  # Connect to SQL
-conn = sqlite3.connect('ftse_100_companies.db')
+conn = sqlite3.connect('../sql_databases/ftse_100_companies.db')
 cursor = conn.cursor()
 # Create a table
 cursor.execute('''CREATE TABLE IF NOT EXISTS ftse_100_companies (
@@ -28,9 +28,6 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS ftse_100_companies (
                     price FLOAT NOT NULL,
                     change FLOAT NOT NULL,
                     change_percent TEXT NOT NULL)''')
-
-
-# Commit changes
 conn.commit()
 
 
@@ -115,3 +112,4 @@ def main():
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     main()
+
