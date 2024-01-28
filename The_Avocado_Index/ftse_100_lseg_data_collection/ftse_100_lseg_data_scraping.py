@@ -17,10 +17,10 @@ def get_driver(headless: bool = True, chrome_version: int = 120) -> WebDriver:
 URL = 'https://www.londonstockexchange.com/indices/ftse-100/constituents/table'
 
  # Connect to SQL
-conn = sqlite3.connect('../sql_databases/ftse_100_companies.db')
+conn = sqlite3.connect('../sql_databases/ftse_100_companies_from_lseg.db')
 cursor = conn.cursor()
 # Create a table
-cursor.execute('''CREATE TABLE IF NOT EXISTS ftse_100_companies (
+cursor.execute('''CREATE TABLE IF NOT EXISTS ftse_100_companies_from_lseg (
                     code TEXT PRIMARY KEY,
                     name TEXT NOT NULL,
                     currency TEXT NOT NULL,
@@ -44,7 +44,7 @@ class FtseData:
 
 def store_data(data: List[FtseData]):
   for company in data:
-    cursor.execute('''INSERT INTO ftse_100_companies 
+    cursor.execute('''INSERT INTO ftse_100_companies_from_lseg 
                         (code, name, currency, market_cap, price, change, change_percent)
                         VALUES (?, ?, ?, ?, ?, ?, ?)''',
                    (company.code, company.name, company.currency,
@@ -90,7 +90,7 @@ def scraper_for_ftse_100(url: str) -> List[FtseData]:
   reject_button.click()
   page_source = driver.page_source
   data_from_page = get_data_from_page(page_source)
-  return data_from_page
+  return data_from_page[-1]
 
 
 def get_all_ftse_100_companies(pages: List[int], first_url: str) -> List[FtseData]:
@@ -108,6 +108,7 @@ def main():
     pages = [1, 2, 3, 4, 5]
     result = get_all_ftse_100_companies(pages, URL)
     print(result)
+    print(len(result))
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
