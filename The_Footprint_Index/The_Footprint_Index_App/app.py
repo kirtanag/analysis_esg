@@ -1,10 +1,12 @@
-from flask import Flask, request, jsonify, g
+from flask import Flask, request
+from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
+app.config["DEBUG"] = True
+CORS(app)
 
-# Database connection details (replace with your actual info)
-DATABASE_PATH = "/Users/kirtanagopakumar/PycharmProjects/analysis_esg/The_Footprint_Index/sql_databases/ghg_emissions.db"
+DATABASE_PATH = "/home/kirtanag/mysite/ghg_emissions.db"
 
 # Dictionary to store means of transport emissions
 dict_means_of_transport_emissions = {
@@ -18,77 +20,68 @@ dict_means_of_transport_emissions = {
     'Train': 35
 }
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE_PATH)
-    return db
+def get_emission_data(company_code, transport=None):
+    conn = sqlite3.connect(DATABASE_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT ghg_emissions FROM ghg_emissions WHERE code = ?", (company_code,))
+    data = cursor.fetchone()
+    conn.close()
+    return data[0] if data else None
 
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+@app.route("/", methods=["GET", "POST"])
+def get_emission_page():
+    errors = ""
+    if request.method == "POST":
+        company_code = request.form.get("company_code")
+        transport = request.form.get("transport")
 
-@app.route("/calculate_emissions", methods=["POST"])
-def calculate_emissions():
-    # Get company and transport from request data
-    company_name = request.form.get("company")
-    transport = request.form.get("transport")
-
-    if not company_name or not transport:
-        return jsonify({"error": "Missing required data"}), 400
-
-    try:
-        # Get company code
-        company_code = get_company_code(company_name)
-
-        if company_code is None:
-            return jsonify({"error": "Company not found"}), 404
-
-        # Get company emission
-        company_emission = get_company_emission(company_code)
-
-        if company_emission is None:
-            return jsonify({"error": "Emission data not found"}), 404
-
-        # Calculate emission ratio
-        if transport in dict_means_of_transport_emissions:
-            mode_emission = dict_means_of_transport_emissions[transport]
-            emission_ratio = company_emission / mode_emission
-            return jsonify({"emission_ratio": round(emission_ratio, 2)})
+        if not company_code:
+            errors += "<p>Please enter a company code.</p>\n"
         else:
-            return jsonify({"error": "Invalid transport mode"}), 400
+            emission_data = get_emission_data(company_code)
+            if emission_data is not None:
+                result = f"For company code {company_code}, "
+                if transport:
+                    if transport in dict_means_of_transport_emissions:
+                        mode_emission = dict_means_of_transport_emissions[transport]
+                        emission_ratio = emission_data / mode_emission
+                        result += f"for mode of transport {transport}, the emission ratio is {emission_ratio} million."
+                    else:
+                        errors += "<p>Invalid mode of transport selected.</p>\n"
+                else:
+                    result += "the emission ratios for all modes of transport are:\n"
+                    for mode, mode_emission in dict_means_of_transport_emissions.items():
+                        emission_ratio = emission_data / mode_emission
+                        result += f"{mode}: {emission_ratio} million\n"
 
-    except Exception as e:
-        print(f"Error calculating emissions: {e}")
-        return jsonify({"error": "An error occurred"}), 500
-
-def get_company_code(company_name):
-    with get_db() as conn:
-        c = conn.cursor()
-        c.execute("SELECT * FROM ftse_100_companies_from_lseg WHERE name LIKE ?", (company_name + '%',))
-        company_data = c.fetchone()
-        if company_data:
-            return company_data[0]
-        else:
-            return None
-
-def get_company_emission(company_code):
-    with get_db() as conn:
-        c = conn.cursor()
-        c.execute(
-            "SELECT * FROM ghg_emissions WHERE code = ? AND year = (SELECT MAX(year) FROM ghg_emissions WHERE code = ?)",
-            (company_code, company_code))
-        emission_data = c.fetchone()
-        if emission_data:
-            # Handle data based on emission unit ("MtCO2e" or other)
-            if emission_data[6] == "MtCO2e":
-                return round(emission_data[5] * 1.1023122100918887, 0)
+                return '''
+                    <html>
+                        <body>
+                            <p>{result}</p>
+                            <p><a href="/">Click here to calculate again</a>
+                        </body>
+                    </html>
+                '''.format(result=result)
             else:
-                return round(emission_data[5], 0)
-        else:
-            return None
+                errors += "<p>No data found for company code {}.</p>\n".format(company_code)
+
+    return '''
+        <html>
+            <body>
+                {errors}
+                <p>Enter company code:</p>
+                <form method="post" action=".">
+                    <p><input name="company_code" /></p>
+                    <p>Select mode of transport:</p>
+                    <select name="transport">
+                        <option value="">None</option>
+                        {options}
+                    </select>
+                    <p><input type="submit" value="Get Emission Data" /></p>
+                </form>
+            </body>
+        </html>
+    '''.format(errors=errors, options="\n".join([f"<option value='{mode}'>{mode}</option>" for mode in dict_means_of_transport_emissions]))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
