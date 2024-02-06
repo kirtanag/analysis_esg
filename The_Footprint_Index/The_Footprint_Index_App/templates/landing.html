@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Footprint Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700&display=swap" media="all">
+
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #FFFEFB;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      overflow-y: auto; /* Add scrollbar if needed */
+    }
+
+    .text-content {
+      flex: 1; /* Take up half the width */
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      color: #344B55;
+      font-family: 'Maven Pro', sans-serif;
+      padding-top: 20px;
+    }
+
+    /* Create a new "header" element for H2 */
+    .header {
+      display: flex;
+      align-items: flex-start; /* Align H2 to top */
+    }
+
+    .right-image {
+      flex: 1; /* Take up half the width */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url("https://www.pythonanywhere.com/user/kirtanag/files/home/kirtanag/mysite/landing.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 40px; /* Adjust margins as needed */
+    }
+
+    h1 {
+      margin-bottom: 1px;
+      line-height: 1.2;
+      font-size: 4.5rem;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      line-height: 1.2;
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 30px;
+      background-color: #78BDA0;
+      font-family: 'Maven Pro', sans-serif;
+      color: white;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer; /* Indicate clickable button */
+    }
+
+    .learn-more {
+      color: #344B55;
+      text-decoration: underline;
+      margin-left: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-content">
+      <div class="header">
+        <h2><small>The Footprint Index</small></h2>
+      </div>
+      <h1><b>Corporate Carbon Footprint Translated to</b><br><b>Human Travel Footprint</b></h1>
+      <div>
+        <a href="/calculator"><button>Go to Calculator</button></a>
+        <a href="/learn-more" class="learn-more">Learn more</a>
+      </div>
+    </div>
+    <div class="right-image"></div>
+  </div>
+</body>
+</html>

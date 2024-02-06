@@ -1,4 +1,23 @@
 import sqlite3
+# import sqlite3
+#
+# # Connect to the SQLite database
+# conn = sqlite3.connect('../sql_databases/ghg_emissions.db')
+#
+# # Create a cursor object to execute SQL queries
+# cursor = conn.cursor()
+#
+# # Define the SQL query to update 'BP' to 'bp'
+# query = "UPDATE ghg_emissions SET unit = 'TeCO2e' WHERE unit = 'TeCO2c';"
+#
+# # Execute the SQL query
+# cursor.execute(query)
+#
+# # Commit the changes
+# conn.commit()
+#
+# # Close the connection
+# conn.close()
 
 # Connect to SQL
 conn = sqlite3.connect('../sql_databases/ghg_emissions.db')
@@ -19,3 +38,5 @@ print(count)
 # cursor.execute(query2)
 
 conn.close()
+
+

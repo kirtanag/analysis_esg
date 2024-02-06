@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Footprint Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;700&display=swap" media="all">
+
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background-color: #FFFEFB;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+    }
+
+    .right-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #FFFEFB;
+      padding: 20px;
+      margin: 20px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      font-family: 'Maven Pro', sans-serif;
+      color: #344B55;
+      overflow-y: auto;
+    }
+
+    .text-content {
+      flex: 1; /* Take up half the width */
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      color: #344B55;
+      font-family: 'Maven Pro', sans-serif;
+      padding-top: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    h1 {
+      margin-bottom: 400px;
+      line-height: 1.2;
+      font-size: 4.5rem;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      line-height: 1.2;
+      font-size: 2rem;
+      font-family: 'Maven Pro', sans-serif;
+      color: #344B55;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .home-link {
+      margin-top: 90px;
+      margin-right: 20px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .contact-form {
+      margin-top: 90px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .red-text {
+      color: #fa967f;
+    }
+
+    .data-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .data-boxes {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .data-box {
+      flex: 1;
+      background-color: #d3d3d3;
+      padding: 6px;
+      padding-top: 2px;
+      margin: 0 5px;
+      align-items: center;
+      border-radius: 10px;
+      text-align: center;
+      width: 150px; /* Set the width */
+    }
+
+    .data-box p {
+      font-size: 0.8rem;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="text-content">
+      <div class="header">
+        <h2><small>The Footprint Index</small></h2>
+      </div>
+      <h1><b>About the Index</b></h1>
+      <div>
+        <a href="/" class="home-link">Home</a>
+        <a href="/contact-form" class="contact-form">Contact Me!</a>
+      </div>
+    </div>
+    <div class="right-text">
+      <h2>What is the Footprint Index?</h2>
+      <div class="data-container">
+        <div class="data-boxes">
+          <div class="data-box">
+            <p style="font-size: .8rem; color:#344B55;"><b style="color:#fa967f; font-size: 2rem">100</b> companies</p>
+          </div>
+          <div class="data-box">
+            <p style="font-size: .8rem; color:#344B55;"><b style="color:#fa967f; font-size: 2rem">8</b> travel modes</p>
+          </div>
+          <div class="data-box">
+            <p style="font-size: .8rem; color:#344B55;"><b style="color:#fa967f; font-size: 2rem">6</b> time units</p>
+          </div>
+         </div>
+      </div>
+      <p style="font-size: 1rem;">The 2022 <span class="red-text"><b>Carbon Emissions</b></span> for Company X was 5 million metric tons. <b>So how bad is that?</b></p>
+      <p style="font-size: 1rem;"><b>The Human Footprint</b> is a quantitative analysis of human influence across the globe. One such influencer is human travel, through which we generate carbon emissions.</p>
+      <p style="font-size: 1rem;">Unlike traditional carbon footprint calculators, The Footprint Index goes beyond mere numbers. We bring real-world context to carbon emissions by linking them to tangible experiences – transportation. By comparing your carbon footprint to the emissions of major corporations, you'll gain a deeper understanding of environmental impact and the role each of us plays in shaping it.</p>
+    </div>
+  </div>
+</body>
+</html>

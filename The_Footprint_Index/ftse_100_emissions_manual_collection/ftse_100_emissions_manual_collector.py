@@ -53,7 +53,7 @@ def collect_and_store_data():
             url = input("Enter source URL: ")
             ghg_emissions = float(input("Enter GHG emissions: ").replace(',', ''))
             units = input("Enter GHG emissions unit: ")
-            unit = ['TeCO2c' if units == 'ton' else units][0]
+            unit = ['TeCO2e' if units == 'ton' else units][0]
             emission_scope_type = input("Enter Scope of GHG emissions: ")
             profit_before_tax = float(input("Enter PBT: ").replace(',', ''))
             profit_before_tax_unit = input("Enter PBT unit: ")
