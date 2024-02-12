@@ -7,7 +7,7 @@ import sqlite3
 # cursor = conn.cursor()
 #
 # # Define the SQL query to update 'BP' to 'bp'
-# query = "UPDATE ghg_emissions SET profit_before_tax = 337 WHERE ghg_id = 'SGE2022';"
+# query = "UPDATE ghg_emissions SET ghg_emissions = 919.328, unit = 'tCO2e' WHERE ghg_id = 'ICP2022';"
 #
 # # Execute the SQL query
 # cursor.execute(query)
