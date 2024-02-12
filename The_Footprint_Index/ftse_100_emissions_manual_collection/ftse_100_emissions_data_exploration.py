@@ -7,7 +7,7 @@ import sqlite3
 # cursor = conn.cursor()
 #
 # # Define the SQL query to update 'BP' to 'bp'
-# query = "UPDATE ghg_emissions SET ghg_emissions = 919.328, unit = 'tCO2e' WHERE ghg_id = 'ICP2022';"
+# query = "UPDATE ghg_emissions SET unit = 'TeCO2e', emission_scope_type = '1, 2, 3' WHERE ghg_id = 'CRDA2021';"
 #
 # # Execute the SQL query
 # cursor.execute(query)
@@ -33,9 +33,11 @@ for row in rows:
 
 print(count)
 
+conn.close()
+
 # query2 = "DELETE FROM ghg_emissions WHERE code = 'PSH';"
 # cursor.execute(query2)
 
-conn.close()
+
 
 
