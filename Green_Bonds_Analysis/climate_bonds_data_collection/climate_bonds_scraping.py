@@ -3,6 +3,7 @@ from requests import get
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional, List
+import sqlite3
 
 
 # Defining the data class
@@ -18,9 +19,25 @@ class ClimateBondData:
     spo_provider: Optional[str] = None
 
 
+# Connect to SQLite database
+conn = sqlite3.connect('/Green_Bonds_Analysis/sql_databases/climate_bonds_data.db')
+cursor = conn.cursor()
+# Create table to store data
+cursor.execute('''CREATE TABLE IF NOT EXISTS climate_bonds_data (
+                    bond_id TEXT,
+                    entity TEXT,
+                    amount_issued INTEGER,
+                    currency TEXT,
+                    issue_date DATETIME,
+                    maturity_date DATETIME,  -- Allow NULL for optional value
+                    cbi_certified TEXT,  -- Allow NULL for optional value
+                    spo_provider TEXT  -- Allow NULL for optional value
+                )''')
+
+
+
 # Scraping the climate bonds website
 link = 'https://www.climatebonds.net/cbi/pub/data/bonds?items_per_page=All'
-# data = get_climate_data(link = link)
 
 
 # Defining function to scrape data
@@ -42,12 +59,19 @@ def get_climate_data(link: str) -> List[ClimateBondData]:
                                        cbi_certified=get_cbi_certified(html=html_data),
                                        spo_provider=get_spo_provider(html=html_data)
                                        )
+        # Store data in database
+        cursor.execute('''INSERT INTO climate_bonds_data VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
+                       (climate_data.bond_id, climate_data.entity, climate_data.amount_issued, climate_data.currency,
+                        climate_data.issue_date, climate_data.maturity_date, climate_data.cbi_certified, climate_data.spo_provider
+                        ))
+        conn.commit()
         climate_data_list.append(climate_data)
 
 
 def get_bond_id(html: bs):
     bond_id = html.find('td', class_ ='views-field views-field-title views-align-left').text.strip()
     return bond_id
+
 
 def get_entity(html: bs):
     entity = html.find('td', class_ ='views-field views-field-field-bond-entity').text.strip()
@@ -93,8 +117,13 @@ def get_spo_provider(html: bs):
         return spo_provider
     except:
         return None
+
+
 def main():
     get_climate_data(link=link)
 
 if __name__ == "__main__":
     main()
+
+# Close database connection
+conn.close()
