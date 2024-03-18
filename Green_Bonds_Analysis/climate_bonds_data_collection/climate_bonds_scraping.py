@@ -35,7 +35,6 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS climate_bonds_data (
                 )''')
 
 
-
 # Scraping the climate bonds website
 link = 'https://www.climatebonds.net/cbi/pub/data/bonds?items_per_page=All'
 
@@ -66,6 +65,7 @@ def get_climate_data(link: str) -> List[ClimateBondData]:
                         ))
         conn.commit()
         climate_data_list.append(climate_data)
+    return climate_data_list
 
 
 def get_bond_id(html: bs):
@@ -77,23 +77,27 @@ def get_entity(html: bs):
     entity = html.find('td', class_ ='views-field views-field-field-bond-entity').text.strip()
     return entity
 
+
 def get_amount_issued(html: bs):
-     try:
-         amount_issued = int((html.find('td', class_ ='views-field views-field-field-bond-amt-issued views-align-right')
-                          .text.replace(',', '')).strip())
-     except:
-         amount_issued = None
-     return amount_issued
+    try:
+        amount_issued = int((html.find('td', class_ ='views-field views-field-field-bond-amt-issued views-align-right')
+                      .text.replace(',', '')).strip())
+    except:
+        amount_issued = None
+    return amount_issued
+
 
 def get_currency(html: bs):
     currency = html.find('td', class_ ='views-field views-field-field-bond-currency views-align-left').text.strip()
     return currency
+
 
 def get_issue_date(html: bs):
     issue_date = html.find('td', class_ ='views-field views-field-field-bond-issue-date active views-align-right').text.strip()
     issue_date_str = "01-" + issue_date
     date_obj = datetime.strptime(issue_date_str, "%d-%b-%y")
     return date_obj
+
 
 def get_maturity_date(html: bs):
     try:
@@ -104,12 +108,14 @@ def get_maturity_date(html: bs):
     except:
         return None
 
+
 def get_cbi_certified(html: bs):
     try:
         cbi_certified = html.find('td', class_ ='views-field views-field-field-bond-verifier').text.strip()
         return cbi_certified
     except:
         return None
+
 
 def get_spo_provider(html: bs):
     try:
@@ -122,8 +128,10 @@ def get_spo_provider(html: bs):
 def main():
     get_climate_data(link=link)
 
+
 if __name__ == "__main__":
     main()
+
 
 # Close database connection
 conn.close()
