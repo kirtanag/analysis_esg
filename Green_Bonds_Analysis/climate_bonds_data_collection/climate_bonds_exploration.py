@@ -1,9 +1,8 @@
 import sqlite3
-import pandas as pd
 # Connect to SQL
 conn = sqlite3.connect('../sql_databases/climate_bonds_data.db')
 cursor = conn.cursor()
-query = "SELECT * FROM climate_bonds_data;"
+query = "SELECT * FROM climate_bonds_data WHERE currency = 'EUR' OR currency = 'GBP';"
 cursor.execute(query)
 rows = cursor.fetchall()
 
@@ -17,6 +16,7 @@ print(count)
 
 
 # Export DataFrame to Excel file
+import pandas as pd
 query = "SELECT * FROM climate_bonds_data;"
 df = pd.read_sql_query(query, conn)
 excel_file_path = '/Users/kirtanagopakumar/PycharmProjects/analysis_esg/Green_Bonds_Analysis/sql_databases/climate_bonds_data.xlsx'
